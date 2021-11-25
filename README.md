@@ -11,11 +11,14 @@ yum install -y bridge-utils
 # arp, hostname, ifconfig, netstat, rarp, route, 
 # plipconfig, slattach, mii-tool and iptunnel and ipmaddr
 yum install -y net-tools
+
+# ip
+yum install -y iproute
 ```
 
 
 ### yum utils
 ```shell
 yum install -y which
-yum install 
+yum install -y wget curl
 ```
