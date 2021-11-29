@@ -3,20 +3,18 @@ BUILD_DIR=
 centos7-base:		## centos7-base
 	docker build -t centos7-base:latest -f ./centos7-base/Dockerfile ./centos7-base
 
-centos7-py3.9_miniconda:		## py3.9
-	pushd ./centos7-py3.9_miniconda && \
-	docker build -t centos7-py3.9_miniconda .
+centos7-nm:			## centos7-nm
+	docker build -t centos7-nm:latest -f ./centos7-nm/Dockerfile ./centos7-nm
 
-d-build:centos7-base	## d-build
+d-build:centos7-nm	## d-build
 	echo 1
-
 d-run-d:		## d-run-d
-	docker run -d centos7-base
+	docker run -d centos7-nm
 d-run:		## d-run
-	docker run -ti --rm centos7-base /bin/bash
+	docker run -ti --rm centos7-nm /bin/bash
 
 d-clean:	## d-clean
-	docker rmi centos7-base
+	docker rmi centos7-nm
 
 c_c:		## clean container
 	docker ps -a|awk '{print $1}'|xargs docker rm
@@ -24,7 +22,10 @@ c_c:		## clean container
 c_none:			## clean none
 	docker images -a |grep none|awk '{print $3}'|xargs docker rmi
 
-.PHONY: help centos7-base centos7-py3.9_miniconda
+n_:		##
+	pipework docker0
+
+.PHONY: help centos7-base centos7-nm
 .DEFAULT_GOAL := help
 
 # Ref: https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html

@@ -4,4 +4,4 @@ FROM centos7-base:latest
 
 # RUN sh conda-install.sh < yes
 
-# CMD ["python3", "--version"]
+CMD ["python3", "--version"]
