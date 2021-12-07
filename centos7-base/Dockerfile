@@ -4,6 +4,9 @@ MAINTAINER jianqiang.zhao <546761972@qq.com>
 
 ENV TZ "Asia/Shanghai"
 
+RUN rm -rf /etc/yum.repos.d/*.repo
+ADD CentOS-Base.repo /etc/yum.repos.d/
+
 RUN yum update -y && \
     yum install -y which openssh-server && \
     sed -ri 's/session    required     pam_loginuid.so/#session    required     pam_loginuid.so/g' /etc/pam.d/sshd && \

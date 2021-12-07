@@ -1,17 +1,17 @@
 BUILD_DIR=
+d-build:		## d-build
+	docker build -t $(BUILD_DIR):latest -f ./$(BUILD_DIR)/Dockerfile ./$(BUILD_DIR)
 
-centos7-base:		## centos7-base
-	docker build -t centos7-base:latest -f ./centos7-base/Dockerfile ./centos7-base
-
-centos7-nm:			## centos7-nm
-	docker build -t centos7-nm:latest -f ./centos7-nm/Dockerfile ./centos7-nm
-
-d-build:centos7-nm	## d-build
-	echo 1
 d-run-d:		## d-run-d
-	docker run -d centos7-nm
+	docker run -d \
+	--net MACNET \
+	--ip 192.168.126.66 \
+	--name codeserver \
+	--env PASSWORD="somepassword2set" \
+	$(BUILD_DIR)
+
 d-run:		## d-run
-	docker run -ti --rm centos7-nm /bin/bash
+	docker run -ti --rm $(BUILD_DIR) /bin/bash --ip
 
 d-clean:	## d-clean
 	docker rmi centos7-nm
@@ -22,10 +22,10 @@ c_c:		## clean container
 c_none:			## clean none
 	docker images -a |grep none|awk '{print $3}'|xargs docker rmi
 
-n_:		##
-	pipework docker0
+c_n:		## network
+	docker network create -d macvlan --subnet=192.168.126.0/24 --gateway=192.168.126.254 -o parent=eth0 MACNET;
 
-.PHONY: help centos7-base centos7-nm
+.PHONY: help centos7-base centos7-nm centos7-py3.6 centos7-codeserver
 .DEFAULT_GOAL := help
 
 # Ref: https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
