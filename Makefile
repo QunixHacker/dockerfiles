@@ -25,7 +25,7 @@ c_none:			## clean none
 c_n:		## network
 	docker network create -d macvlan --subnet=192.168.126.0/24 --gateway=192.168.126.254 -o parent=eth0 MACNET;
 
-.PHONY: help centos7-base centos7-nm centos7-py3.6 centos7-codeserver
+.PHONY: help centos7-base centos7-base-util centos7-py36 centos7-codeserver
 .DEFAULT_GOAL := help
 
 # Ref: https://marmelab.com/blog/2016/02/29/auto-documented-makefile.html
