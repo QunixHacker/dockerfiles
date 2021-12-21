@@ -3,15 +3,14 @@ d-build:		## d-build
 	docker build -t $(BUILD_DIR):latest -f ./$(BUILD_DIR)/Dockerfile ./$(BUILD_DIR)
 
 d-run-d:		## d-run-d
-	docker run -d \
-	--net MACNET \
-	--ip 192.168.126.66 \
-	--name codeserver \
-	--env PASSWORD="somepassword2set" \
-	$(BUILD_DIR)
+	docker run -d --net MACNET --name tmpd \
+	--ip 192.168.126.62 --hostname D-192-168-126-62 \
+	$(IMG)
 
-d-run:		## d-run
-	docker run -ti --rm $(BUILD_DIR) /bin/bash --ip
+d-run-s:
+	docker run -it --rm --net MACNET --name tmp \
+	--ip 192.168.126.61 --hostname D-192-168-126-61 \
+	$(IMG) /bin/bash
 
 d-clean:	## d-clean
 	docker rmi centos7-nm
