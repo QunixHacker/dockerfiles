@@ -1,0 +1,50 @@
+version: '3.0'
+
+networks:
+  macvlan2904:
+      external: true
+
+services:
+  keepalived_master:
+    image: centos7-nginx-keepalived
+    hostname: D-192-168-0-59
+    privileged: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.59
+    volumes:
+      - ${PWD}/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ${PWD}/nginx/conf.d:/etc/nginx/conf.d
+      - ${PWD}/master:/etc/keepalived
+    command: /run.sh
+  keepalived_backup:
+    image: centos7-nginx-keepalived
+    hostname: D-192-168-0-58
+    privileged: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.58
+    volumes:
+      - ${PWD}/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ${PWD}/nginx/conf.d:/etc/nginx/conf.d
+      - ${PWD}/backup:/etc/keepalived
+
+  web1:
+    image: centos7-py36
+    hostname: D-192-168-0-51
+    privileged: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.51
+    command: /usr/bin/python3 -m http.server 8000
+  web2:
+    image: centos7-py36
+    hostname: D-192-168-0-52
+    privileged: true
+    # stdin_open: true
+    # tty: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.52
+
+    command: /usr/bin/python3 -m http.server 8000

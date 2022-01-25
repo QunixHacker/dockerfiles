@@ -1,0 +1,8 @@
+digraph {
+	"7.9.2009" -> "base"
+	"base" ->  "base-util"
+	"base-util" -> "py36"
+	"py36"	-> {"supervisor", "gcc", "nginx"}
+	"gcc" 	-> "lua"
+	"nginx"	->	"nginx-keepalived"
+}
