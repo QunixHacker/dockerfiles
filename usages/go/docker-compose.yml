@@ -1,0 +1,18 @@
+version: '3.0'
+
+networks:
+  macvlan2904:
+      external: true
+
+services:
+  dev:
+    image: centos7-go
+    hostname: D-192-168-0-40
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.40
+    command: /bin/bash
+  #go install github.com/go-delve/delve/cmd/dlv@v1.8.0

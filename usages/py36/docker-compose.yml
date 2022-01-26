@@ -1,0 +1,17 @@
+version: '3.0'
+
+networks:
+  macvlan2904:
+      external: true
+
+services:
+  dev:
+    image: centos7-py36
+    hostname: D-192-168-0-41
+    privileged: true
+    tty: true
+    stdin_open: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.41
+    command: /bin/bash

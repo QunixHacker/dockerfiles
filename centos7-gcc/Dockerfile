@@ -1,4 +1,4 @@
-FROM centos7-py36:latest
+FROM centos7-base-util:latest
 
 ADD epel.repo /etc/yum.repos.d/
 

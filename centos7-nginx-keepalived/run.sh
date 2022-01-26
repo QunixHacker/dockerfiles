@@ -1,4 +1,2 @@
-#! /usr/bin/env
-
-keepalived
-nginx -g "daemon off;"
+#! /usr/bin/env bash
+keepalived && nginx -g "daemon off;"

@@ -2,24 +2,32 @@ BUILD_DIR=
 DOCKER_RUN=docker run --net macvlan2904 --privileged
 DOCKER_BUILD=docker build
 DOCKER_BUILD_N=$(DOCKER_BUILD) --network host
-DOCKER_BUILD_P=$(DOCKER_BUILD) --build-arg http_proxy=http://192.168.0.10:41091
-d-build:		## d-build
-	$(DOCKER_BUILD_N) -t $(BUILD_DIR):latest -f ./$(BUILD_DIR)/Dockerfile ./$(BUILD_DIR)
+DOCKER_BUILD_P=$(DOCKER_BUILD_N) --build-arg HTTP_PROXY=http://192.168.0.101:41091 --build-arg HTTPS_PROXY=https://192.168.0.101:41091
+build:		## d-build
+	$(DOCKER_BUILD_P) -t $(BUILD_DIR):latest -f ./$(BUILD_DIR)/Dockerfile ./$(BUILD_DIR)
 
-d-run-d:		## d-run-d
-	$(DOCKER_RUN) -d --name tmpd \
-	--ip 192.168.0.61 --hostname D-192-168-0-61 \
-	$(IMG)
+build_base:		## build-base
+	make build BUILD_DIR=centos7-base
+	make build BUILD_DIR=centos7-base-util
 
-d-run-d2:		## d-run-d2
-	$(DOCKER_RUN) -d --name tmpd2 \
-	--ip 192.168.0.62 --hostname D-192-168-0-62\
-	$(IMG)
+build_dev:build_base	## build dev
+	make build BUILD_DIR=centos7-gcc
+	make build BUILD_DIR=centos7-go
+	make build BUILD_DIR=centos7-lua
+	make build BUILD_DIR=centos7-py36
+	make build BUILD_DIR=centos7-codeserver
 
-d-run-s:		## test
-	$(DOCKER_RUN) -it --rm --name tmp \
-	--ip 192.168.0.60 --hostname D-192-168-0-60 \
-	centos7-py36 /bin/bash
+build_ops:build_base		## build-all
+	make build BUILD_DIR=centos7-nginx
+	make build BUILD_DIR=centos7-nginx-keepalived
+	make build BUILD_DIR=centos7-py36
+	make build BUILD_DIR=centos7-supervisor
+
+run_up:		## make run_up SUBD=nginx-keepalived
+	pushd usage/${SUBD} && docker-compose up -d
+
+run_it:		## make run_it SUBD=go
+	pushd usages/${SUBD} && docker-compose run --rm dev
 
 c_n:		## network
 	docker network create -d macvlan --subnet=192.168.126.0/24 --gateway=192.168.126.254 -o parent=eth0 MACNET;

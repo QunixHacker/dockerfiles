@@ -1,4 +1,4 @@
-FROM centos7-py36:latest
+FROM centos7-base-util:latest
 
 ADD run.sh /run.sh
 
