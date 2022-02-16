@@ -1,0 +1,24 @@
+digraph {
+	node[shape=record]
+	rankdir=LR;
+
+	"家庭路由"[label="家庭路由|<ip_wan> alfred myip|<ip_lan> lan:192.168.1.1|<ip_range> sub:192.168.1.*/24"]
+	"实验路由"[label="实验路由|<ip_wan> wan:192.168.1.253|<ip_lan> lan:192.168.0.1|<ip_range> sub:192.168.0.*/24|<PM> 真机: 200-254|<VM> 虚机: 100-199|<DCP> 容器-持久: 070-099|<DCS> 容器-服务: 040-069|<DCT> 容器-临时: 001-039"]
+	"NAS"[label="NAS|<ip_1> if0:192.168.1.254/24|<ip_2> if1:192.168.0.254/24"]
+
+	# 子网1
+	"家庭-移动设备"[label="卧室电视&客厅电视&移动设备|<ip_range> dhcp: 192.168.1.100/24 - 192.168.1.200/24"]
+
+	# 子网-真机&虚机
+	"PC"[label="PC|Alias: VM-HOST|<ip> ip:192.168.0.200/24"]
+	"VM-DOCKER"[label="VM-Docker|HOSTNAME: VM-192-168-0-100 |<ip> ip:192.168.0.100/24"]
+	# 子网-容器
+	"容器-mysql"[label="容器-mysql|HOSTNAME: VM-192-168-0-99 |<ip> ip: 192.168.0.99"]
+	"容器-cluster-kafka"[label="容器-kafka/zk|HOSTNAME: VM-192-168-0- |<ip> ip: 192.168.0.96&95&94"]
+	"容器-cluster-nginx"[label="容器-cluster-nginx|HOSTNAME: VM-192-168-0-89 |<vip> vip:192.168.0.90 |<ip> ip: 192.168.0.89&88/24"]
+
+	"家庭路由":ip_range -> {"实验路由":ip_wan, "NAS":ip_1, "家庭-移动设备"}
+	"实验路由":PM -> {"NAS":ip_2, "PC":ip}
+	"实验路由":VM -> {"VM-DOCKER":ip}
+	"实验路由":DCP -> {"容器-mysql":ip, "容器-cluster-nginx":ip, "容器-cluster-kafka":ip}
+}

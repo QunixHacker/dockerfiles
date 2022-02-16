@@ -1,0 +1,13 @@
+digraph G {
+	node[shape=record]
+	rankdir=LR;
+
+	"io.Reader"[label="io.Reader| +Read(b []byte) (n int, err error)"]
+	"io.Writer"[label="io.Writer| +Write(b []byte) (n int, err error)"]
+	"io.Closer"[label="io.Closer| + Close() error"]
+
+	"os.FD"[label="os.FD|"]
+	{"io.Reader", "io.Writer", "io.Closer"} -> "io.ReadWriterCloser"-> "os.FD" -> "os.file" -> "os.File";
+
+	"bufio.Scanner"[label="bufio.Scanner| +Scan() bool| +Text() string| +Bytes() []byte" ]
+}

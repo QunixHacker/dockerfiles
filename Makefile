@@ -29,6 +29,12 @@ run_up:		## make run_up SUBD=nginx-keepalived
 run_it:		## make run_it SUBD=go
 	pushd usages/${SUBD} && docker-compose run --rm dev
 
+run_go_s:	## server
+	pushd usages/go && docker-compose run --rm dev
+
+run_go_c:	## client
+	pushd usages/go && docker-compose run --rm client
+
 c_n:		## network
 	docker network create -d macvlan --subnet=192.168.126.0/24 --gateway=192.168.126.254 -o parent=eth0 MACNET;
 
@@ -40,6 +46,12 @@ gfw_proxy:			## ubuntu2004
 
 dag: 			## image dag
 	pushd docs && dot -Tpng -o h.png h.dot
+
+dag_go:			## golang interface
+	pushd docs && dot -Tpng -o go_interface.png go_interface.dot
+
+dag_lab:		## 小型实验网络
+	pushd docs && dot -Tpng -o lab.network.png lab.network.dot
 
 .PHONY: help centos7-base centos7-base-util centos7-py36 centos7-codeserver
 .DEFAULT_GOAL := help
