@@ -1,0 +1,19 @@
+version: '3.0'
+
+networks:
+  macvlan2904:
+      external: true
+
+services:
+
+  mysql1:
+    image: 'mysql:5.7'
+    container_name: mysql_5_7
+    privileged: true
+    environment:
+      - MYSQL_ROOT_PASSWORD=123
+    ports:
+      - 3306:3306
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.99

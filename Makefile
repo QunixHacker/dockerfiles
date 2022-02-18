@@ -24,7 +24,7 @@ build_ops:build_base		## build-all
 	make build BUILD_DIR=centos7-supervisor
 
 run_up:		## make run_up SUBD=nginx-keepalived
-	pushd usage/${SUBD} && docker-compose up -d
+	pushd usages/${SUBD} && docker-compose up -d
 
 run_it:		## make run_it SUBD=go
 	pushd usages/${SUBD} && docker-compose run --rm dev

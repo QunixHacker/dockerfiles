@@ -1,0 +1,16 @@
+version: '3.0'
+
+networks:
+  macvlan2904:
+    external: true
+
+services:
+  cache1:
+    image:  redis:6.2.6
+    hostname: D-192-168-0-12
+    privileged: true
+    networks:
+      macvlan2904:
+        ipv4_address: 192.168.0.12
+
+    command: redis-server

@@ -14,11 +14,12 @@ digraph {
 	"VM-DOCKER"[label="VM-Docker|HOSTNAME: VM-192-168-0-100 |<ip> ip:192.168.0.100/24"]
 	# 子网-容器
 	"容器-mysql"[label="容器-mysql|HOSTNAME: VM-192-168-0-99 |<ip> ip: 192.168.0.99"]
-	"容器-cluster-kafka"[label="容器-kafka/zk|HOSTNAME: VM-192-168-0- |<ip> ip: 192.168.0.96&95&94"]
+	"容器-cluster-kafka"[label="容器-kafka/zk|<ip> ip: 192.168.0.96&95&94"]
+	"容器-cluster-etcd"[label="容器-etcd|<ip> ip: 192.168.0.93&92&91"]
 	"容器-cluster-nginx"[label="容器-cluster-nginx|HOSTNAME: VM-192-168-0-89 |<vip> vip:192.168.0.90 |<ip> ip: 192.168.0.89&88/24"]
 
 	"家庭路由":ip_range -> {"实验路由":ip_wan, "NAS":ip_1, "家庭-移动设备"}
 	"实验路由":PM -> {"NAS":ip_2, "PC":ip}
 	"实验路由":VM -> {"VM-DOCKER":ip}
-	"实验路由":DCP -> {"容器-mysql":ip, "容器-cluster-nginx":ip, "容器-cluster-kafka":ip}
+	"实验路由":DCP -> {"容器-mysql":ip, "容器-cluster-nginx":ip, "容器-cluster-kafka":ip, "容器-cluster-etcd"}
 }
