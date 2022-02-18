@@ -44,14 +44,6 @@ gfw_proxy:			## ubuntu2004
 	-e VNC_PASSWORD=q1w2e3r4 \
 	dorowu/ubuntu-desktop-lxde-vnc:bionic
 
-dag: 			## image dag
-	pushd docs && dot -Tpng -o h.png h.dot
-
-dag_go:			## golang interface
-	pushd docs && dot -Tpng -o go_interface.png go_interface.dot
-
-dag_lab:		## 小型实验网络
-	pushd docs && dot -Tpng -o lab.network.png lab.network.dot
 
 .PHONY: help centos7-base centos7-base-util centos7-py36 centos7-codeserver
 .DEFAULT_GOAL := help
